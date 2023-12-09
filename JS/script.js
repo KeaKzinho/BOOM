@@ -21,9 +21,11 @@ function disparoAudio(){
 
     let mutar = localStorage.getItem('som')
 
-    if (mutar == 'desmutado'){
-        audio.play();
-    }
+    if (mutar == 'mutado'){
+        console.log("ce ta mutado fio")
+    } else {
+	audio.play();
+      }
 }
 
 
