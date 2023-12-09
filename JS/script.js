@@ -1,3 +1,4 @@
+// Dispara o audio ao atirar
 document.addEventListener('click', function() {
     var audio = document.getElementById('meuAudio');
     audio.play();
@@ -5,6 +6,8 @@ document.addEventListener('click', function() {
 
 const element = document.getElementById('pagina')
 
+
+// Posiciona a mira de acordo com o mouse
 element.addEventListener('mousemove', (event) => {
     let x = event.clientX;
     let y = event.clientY;
@@ -13,9 +16,13 @@ element.addEventListener('mousemove', (event) => {
     mira.style.left = `${x-90}px`
 })
 
-let vida = 3
+
+// Valores iniciais
+let vida = 3 
 let abates = 0
 
+
+// Atirar ao clicar na tela
 const atirar = document.getElementById('pagina')
 atirar.onclick = async function(e){
     e.preventDefault()
@@ -28,6 +35,7 @@ atirar.onclick = async function(e){
 }
 
 
+// Matar zumbi 1
 const zumbi1 = document.getElementById("zumbi1")
 zumbi1.onclick = function(e){
     e.preventDefault()
@@ -39,6 +47,8 @@ zumbi1.onclick = function(e){
     }, 4550)
 }
 
+
+// Matar zumbi 2
 const zumbi2 = document.getElementById("zumbi2")
 zumbi2.onclick = function(e){
     e.preventDefault()
@@ -50,6 +60,8 @@ zumbi2.onclick = function(e){
     }, 4550)
 }
 
+
+// Matar zumbi 3
 const zumbi3 = document.getElementById("zumbi3")
 zumbi3.onclick = function(e){
     e.preventDefault()
@@ -61,6 +73,8 @@ zumbi3.onclick = function(e){
     }, 4550)
 }
 
+
+// Matar zumbi 4
 const zumbi4 = document.getElementById("zumbi4")
 zumbi4.onclick = function(e){
     e.preventDefault()
@@ -71,4 +85,3 @@ zumbi4.onclick = function(e){
         zumbi4.style.display = 'block'
     }, 4550)
 }
-
