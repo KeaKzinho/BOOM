@@ -14,14 +14,34 @@ let botao_desmutar = document.getElementById("botao_desmutar")
 // Valores iniciais
 let abates = 0
 let balas = 4
+localStorage.setItem('som','desmutado')
+
+
+// Mutar audio
+function mutarAudio(){
+    localStorage.setItem('som','mutado')
+    botao_mutar.style.display = "none"
+    botao_desmutar.style.display = "block"
+
+}
+
+
+// Desmutar audio
+function desmutarAudio(){
+    localStorage.setItem('som','desmutado')
+    mutar = false   
+    botao_mutar.style.display = "block"
+    botao_desmutar.style.display = "none"
+}
+
 
 // Dispara o audio ao atirar
 function disparoAudio(){
-    audio.currentTime = 0
-
+    
     let mutar = localStorage.getItem('som')
-
+    
     if (mutar == 'desmutado'){
+        audio.currentTime = 0
         audio.play();
     }
 }
@@ -88,6 +108,7 @@ const atirar = document.getElementById('pagina')
 atirar.onclick = async function(e){
     e.preventDefault()
 
+    console.log("oi")
     disparoAudio()
 
     balas = balas -1
@@ -146,18 +167,4 @@ function despausar(){
     abatesH1.style.display = "block"
     balasH1.style.display = "block"
     botaoPausar.style.display = "block"
-}
-
-function mutarAudio(){
-    localStorage.setItem('som','mutado')
-    botao_mutar.style.display = "none"
-    botao_desmutar.style.display = "block"
-
-}
-
-function desmutarAudio(){
-    localStorage.setItem('som','desmutado')
-    mutar = false
-    botao_mutar.style.display = "block"
-    botao_desmutar.style.display = "none"
 }
