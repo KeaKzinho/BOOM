@@ -1,14 +1,80 @@
-// Dispara o audio ao atirar
-document.addEventListener('click', function() {
-    var audio = document.getElementById('meuAudio');
-    audio.play();
-  });
+// Pegando os elementos html
+let main = document.getElementById("pagina")
+let audio = document.getElementById('meuAudio')
+let disparo = document.getElementById('disparo')
+let divPause = document.getElementById("pause")
+let botaoPausar = document.getElementById("botao_pausar")
+let abatesH1 = document.getElementById("kills")
+let balasH1 = document.getElementById("bala")
+let gameover = document.getElementById("gameover")
+let botao_mutar = document.getElementById("botao_mutar")
+let botao_desmutar = document.getElementById("botao_desmutar")
 
-const element = document.getElementById('pagina')
+
+// Valores iniciais
+let abates = 0
+let balas = 4
+
+// Dispara o audio ao atirar
+function disparoAudio(){
+    audio.currentTime = 0
+
+    let mutar = localStorage.getItem('som')
+
+    if (mutar == 'desmutado'){
+        audio.play();
+    }
+}
+
+
+// Ultimos resultados
+function seuRecorde(abates_atual){
+    if (localStorage.getItem('historico') == '') {
+        localStorage.setItem('historico','0')
+    }
+
+    let recordeAtual = localStorage.getItem('historico')
+    recordeAtual = Number(recordeAtual)
+
+    if (abates_atual > recordeAtual){
+        let novoRecorde = String(abates_atual)
+        localStorage.setItem('historico',novoRecorde)
+        recorde.innerHTML = `NOVO RECORDE DE ABATES: ${abates_atual}`
+    } else {
+        recorde.innerHTML = `RECORDE DE ABATES: ${recordeAtual}`
+    }
+}
+
+
+// Load tela game over
+function gameOver(){
+    abatesGameOver.innerHTML = `VOCÊ MATOU ${abates} ZUMBI(s)`
+    seuRecorde(abates)
+
+    abates = 0
+    kills.innerHTML = `ABATES: ${abates}`
+    main.style.display = "none"
+    gameover.style.display = "block"
+    botaoPausar.style.display = "none"
+    abatesH1.style.display = "none"
+    balasH1.style.display = "none"
+}
+
+
+// Load jogar novamente
+function jogarNovamente(){
+    balas = 4
+    bala.innerHTML = `BALAS: ${balas}`
+    main.style.display = "block"
+    gameover.style.display = "none"
+    abatesH1.style.display = "block"
+    balasH1.style.display = "block"
+    botaoPausar.style.display = "block"
+}
 
 
 // Posiciona a mira de acordo com o mouse
-element.addEventListener('mousemove', (event) => {
+main.addEventListener('mousemove', (event) => {
     let x = event.clientX;
     let y = event.clientY;
     let mira = document.getElementById('aim')
@@ -17,17 +83,20 @@ element.addEventListener('mousemove', (event) => {
 })
 
 
-// Valores iniciais
-let vida = 3 
-let abates = 0
-
-
 // Atirar ao clicar na tela
 const atirar = document.getElementById('pagina')
 atirar.onclick = async function(e){
     e.preventDefault()
-    
-    var disparo = document.getElementById('disparo')
+
+    disparoAudio()
+
+    balas = balas -1
+    bala.innerHTML = `BALAS: ${balas}`
+
+    if (balas <=0){
+        gameOver()
+    }
+
     disparo.style.display = 'block'
     setTimeout(function(){
         disparo.style.display = 'none'
@@ -35,53 +104,60 @@ atirar.onclick = async function(e){
 }
 
 
-// Matar zumbi 1
-const zumbi1 = document.getElementById("zumbi1")
-zumbi1.onclick = function(e){
-    e.preventDefault()
-    zumbi1.style.display="none"
-    abates = abates + 1
-    kills.innerHTML = `Abates: ${abates}`
-    setTimeout(function(){
-        zumbi1.style.display = 'block'
-    }, 4550)
+// Matar zumbi
+function matarZumbi(id_zumbi){
+    if (balas >0){
+        let zumbi = document.getElementById(id_zumbi)
+
+        zumbi.style.display="none"
+
+        balas = balas+1
+        bala.innerHTML = `BALAS: ${balas}`
+
+        abates = abates + 1
+        kills.innerHTML = `ABATES: ${abates}`
+
+        setTimeout(() => {
+            zumbi.style.display = "block"
+        }, 4550);
+
+    } else {
+        gameOver()
+    }
 }
 
 
-// Matar zumbi 2
-const zumbi2 = document.getElementById("zumbi2")
-zumbi2.onclick = function(e){
-    e.preventDefault()
-    zumbi2.style.display="none"
-    abates = abates + 1
-    kills.innerHTML = `Abates: ${abates}`
-    setTimeout(function(){
-        zumbi2.style.display = 'block'
-    }, 4550)
+// Pausar
+function pausar(){
+    divPause.style.display = "block"
+    main.style.display = "none"
+    abatesH1.style.display = "none"
+    balasH1.style.display = "none"
+    abatesPause.innerHTML = `ABATES: ${abates}`
+    balasPause.innerHTML = `BALAS: ${balas}`
+    botaoPausar.style.display = "none"
 }
 
 
-// Matar zumbi 3
-const zumbi3 = document.getElementById("zumbi3")
-zumbi3.onclick = function(e){
-    e.preventDefault()
-    zumbi3.style.display="none"
-    abates = abates + 1
-    kills.innerHTML = `Abates: ${abates}`
-    setTimeout(function(){
-        zumbi3.style.display = 'block'
-    }, 4550)
+// Despausar
+function despausar(){
+    divPause.style.display = "none"
+    main.style.display = "block"
+    abatesH1.style.display = "block"
+    balasH1.style.display = "block"
+    botaoPausar.style.display = "block"
 }
 
+function mutarAudio(){
+    localStorage.setItem('som','mutado')
+    botao_mutar.style.display = "none"
+    botao_desmutar.style.display = "block"
 
-// Matar zumbi 4
-const zumbi4 = document.getElementById("zumbi4")
-zumbi4.onclick = function(e){
-    e.preventDefault()
-    zumbi4.style.display="none"
-    abates = abates + 1
-    kills.innerHTML = `Abates: ${abates}`
-    setTimeout(function(){
-        zumbi4.style.display = 'block'
-    }, 4550)
+}
+
+function desmutarAudio(){
+    localStorage.setItem('som','desmutado')
+    mutar = false
+    botao_mutar.style.display = "block"
+    botao_desmutar.style.display = "none"
 }
